@@ -11,6 +11,7 @@ rustbf <file_path> <args>
 ## Args
 
 **`-t`** — don't delete `.c` temp file
+
 **`-r`** — run exe
 
 ## Example
