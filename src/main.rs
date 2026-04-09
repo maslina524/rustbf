@@ -4,7 +4,7 @@ use std::{env, error::Error};
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-mod builder;
+mod compiler;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let argv: Vec<String> = env::args().collect();
@@ -31,7 +31,7 @@ fn build(argv: &Vec<String>) -> Result<(), Box<dyn Error>> {
 
     let file_path = &argv[1];
     let source = fs::read_to_string(file_path)?;
-    let tokens = builder::lex(&source);
+    let tokens = compiler::lex(&source);
 
     let path = Path::new(file_path);
     let output_name = path
@@ -39,7 +39,7 @@ fn build(argv: &Vec<String>) -> Result<(), Box<dyn Error>> {
         .and_then(|s| s.to_str())
         .unwrap_or("output");
 
-    builder::build_c(&tokens, &c_file_name)?;
+    compiler::build_c(&tokens, &c_file_name)?;
     compile_c(&c_file_name, output_name)?;
 
     if run_exe {
